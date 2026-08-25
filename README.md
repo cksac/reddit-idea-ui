@@ -26,10 +26,10 @@ https://github.com/czm15053/reddit-idea-ui/raw/main/reddit-idea.user.js
 ## 功能（Reddit 版）
 
 - **IDEA / PyCharm 切换**：点击顶栏品牌标，选择写入 `localStorage`（联动 favicon）
-- **网站头**：伪装为 IDE 菜单栏（36px、File / Edit / View / Navigate…），保留搜索框与登录按钮
+- **网站头**：原生顶栏替换为注入的 IDE 菜单栏（36px、File / Edit / View / Navigate…），含真实搜索框、Home/Popular/All 快捷链接与登录按钮
 - **主页**：帖子列表伪装为 **Git Log**（多泳道 SVG 图谱，按 Subreddit 分泳道）
 - **帖子 / 评论页**：评论渲染为代码编辑器阅读区——行号 gutter、嵌套缩进与 │ 引导线、`└──` 分支标记
-- **侧栏**：Project View 风格（Deep 项目路径栏、黄文件夹、选中色）
+- **侧栏**：原生侧栏保留占位但被遮盖，改为 Project View 风格面板（路径栏、黄文件夹、选中色）
 - **工具窗条**：左右两侧 IDE 风格条带（Project / Commit / Maven / Python 等装饰按钮，窄屏自动隐藏）
 - **颜色模式**：默认 Darcula 深色，顶栏 Dark/Light 按钮即时切换
 - **状态栏**：底部 IDE 状态条；赞助帖以 `// sponsored` 标注

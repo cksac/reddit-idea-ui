@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Reddit · JetBrains / Darcula 外观
 // @namespace    https://www.reddit.com/
-// @version      0.1.0
+// @version      0.2.1
 // @description  把 Reddit（shreddit 新 UI）换成 JetBrains IDE / Darcula 风格（支持 IDEA / PyCharm 切换）。仅改变外观，保留站点原有内容与交互。
 // @author       czm15053
 // @match        https://www.reddit.com/*
@@ -310,141 +310,142 @@
       border-radius: 0 !important;
     }
 
-    /* ===== Header / IDE menu bar ===== */
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) {
-      position: sticky !important;
-      top: 0 !important;
-      z-index: 2147483645 !important;
-      display: flex !important;
-      align-items: center !important;
-      gap: 8px !important;
-      height: 36px !important;
-      min-height: 36px !important;
-      margin: 0 !important;
-      padding: 0 4px 0 2px !important;
-      background: var(--idea-menu) !important;
-      border: 0 !important;
-      border-bottom: 1px solid var(--idea-line-strong) !important;
-      box-shadow: inset 0 1px 0 var(--idea-line) !important;
-      color: var(--idea-text-2) !important;
-      font-family: var(--idea-ui) !important;
-    }
-
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) :is(reddit-logo, faceplate-logo, [data-testid="reddit-logo"], a[data-testid="logoLinks"] svg, .logoLinks svg, .logoLinks picture) {
+    /* ===== Native chrome stripped; own IDE top bar ===== */
+    html.idea-ide-theme :is(
+      reddit-header-large, shreddit-header, header[role="banner"],
+      faceplate-tracker[noun="header"], reddit-header,
+      [data-testid="header"], [data-testid="reddit-header"],
+      reddit-sidebar-nav, left-nav, nav[aria-label="Primary navigation"],
+      #left-sidebar-container, #right-sidebar-container,
+      [data-testid="left-sidebar"], [data-testid="right-sidebar"], [data-testid="sidebar-container"],
+      shreddit-sidebar, reddit-sidebar, #column-right,
+      shreddit-app aside, [aria-label="Community information"],
+      [aria-label="Related communities"], [aria-label="Popular communities"],
+      shreddit-sidebar-carousel, community-highlight-carousel,
+      shreddit-community-highlight-carousel, [data-testid="community-highlights"]
+    ) {
       display: none !important;
-      visibility: hidden !important;
-      width: 0 !important;
-      height: 0 !important;
     }
 
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) :is(a, button, span, div) {
+    html.idea-ide-theme reddit-logo,
+    html.idea-ide-theme faceplate-logo {
+      display: none !important;
+    }
+
+    html.idea-ide-theme shreddit-app {
+      padding-top: 36px;
+    }
+
+    html.idea-ide-theme #idea-topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2147483646;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      height: 36px;
+      padding: 0 10px 0 6px;
+      background: var(--idea-menu);
+      border-bottom: 1px solid var(--idea-line-strong);
+      box-shadow: inset 0 1px 0 var(--idea-line);
+      color: var(--idea-text-2);
+      font-family: var(--idea-ui);
+      user-select: none;
       box-sizing: border-box;
     }
 
-    /* Native left nav labels (Home / Popular / All) look like menu items. */
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) nav ul,
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) nav {
-      display: flex !important;
-      align-items: center !important;
-      gap: 1px !important;
-      list-style: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
+    html.idea-ide-theme #idea-topbar .idea-topbar-links {
+      display: flex;
+      align-items: center;
+      gap: 1px;
+      min-width: 0;
+      overflow: hidden;
     }
 
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) nav a {
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 4px !important;
-      height: 24px !important;
-      padding: 0 8px !important;
-      border: 0 !important;
-      border-radius: 2px !important;
-      background: transparent !important;
-      color: var(--idea-text-2) !important;
-      font-size: 12px !important;
-      line-height: 24px !important;
-      text-decoration: none !important;
-      white-space: nowrap !important;
+    html.idea-ide-theme #idea-topbar .idea-topbar-links a {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 8px;
+      border: 0;
+      border-radius: 2px;
+      background: transparent;
+      color: var(--idea-text-2);
+      font-size: 12px;
+      line-height: 24px;
+      text-decoration: none;
+      white-space: nowrap;
     }
 
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) nav a:hover {
-      background: var(--idea-fill-hover) !important;
-      color: var(--idea-text) !important;
+    html.idea-ide-theme #idea-topbar .idea-topbar-links a:hover {
+      background: var(--idea-fill-hover);
+      color: var(--idea-text);
     }
 
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) nav a[aria-current="page"] {
-      background: var(--idea-fill-hover) !important;
-      color: var(--idea-text) !important;
+    html.idea-ide-theme #idea-topbar .idea-topbar-search {
+      flex: 1 1 auto;
+      max-width: 560px;
+      min-width: 120px;
+      height: 24px;
+      margin: 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0 8px;
+      border: 1px solid var(--idea-line-2);
+      border-radius: 2px;
+      background: var(--idea-panel-2);
     }
 
-    /* Search box */
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) :is(reddit-search, faceplate-search) {
-      flex: 1 1 320px !important;
-      max-width: 520px !important;
-      min-width: 140px !important;
-      margin: 0 6px !important;
-      background: transparent !important;
-      border: 0 !important;
+    html.idea-ide-theme #idea-topbar .idea-topbar-search input {
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 22px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--idea-text);
+      font: 12px var(--idea-mono);
+      outline: none;
     }
 
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) :is(reddit-search, faceplate-search) :is(input, input[type="search"], faceplate-input input) {
-      width: 100% !important;
-      height: 24px !important;
-      margin: 0 !important;
-      padding: 0 10px !important;
-      border: 1px solid var(--idea-line-2) !important;
-      border-radius: 2px !important;
-      background: var(--idea-panel-2) !important;
-      color: var(--idea-text) !important;
-      font-size: 12px !important;
-      font-family: var(--idea-mono) !important;
-      outline: none !important;
+    html.idea-ide-theme #idea-topbar .idea-topbar-spacer {
+      flex: 1 1 0;
+      min-width: 8px;
     }
 
-    /* Auth / entry buttons */
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) :is(a[href^="/login"], a[href^="/signup"], [data-testid="login-button"], [data-testid="signup-button"], #user-session-button) {
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      height: 24px !important;
-      min-height: 24px !important;
-      margin: 0 !important;
-      padding: 0 12px !important;
-      border-radius: 2px !important;
-      background: transparent !important;
-      color: var(--idea-text-2) !important;
-      font-size: 12px !important;
-      text-decoration: none !important;
-      white-space: nowrap !important;
+    html.idea-ide-theme #idea-topbar .idea-topbar-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      min-height: 24px;
+      margin: 0 1px;
+      padding: 0 12px;
+      border: 1px solid var(--idea-line);
+      border-radius: 2px;
+      background: transparent;
+      color: var(--idea-text-2);
+      font-size: 12px;
+      text-decoration: none;
+      white-space: nowrap;
     }
 
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) :is(a[href^="/login"], [data-testid="login-button"]) {
-      border: 1px solid var(--idea-line) !important;
+    html.idea-ide-theme #idea-topbar .idea-topbar-action:hover {
+      background: var(--idea-fill-hover);
+      border-color: var(--idea-accent-soft);
+      color: var(--idea-text);
     }
 
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) :is(a[href^="/login"], a[href^="/signup"], [data-testid="login-button"], [data-testid="signup-button"], #user-session-button):hover {
-      background: var(--idea-fill-hover) !important;
-      color: var(--idea-text) !important;
-      border-color: var(--idea-accent-soft) !important;
-    }
-
-    html.idea-ide-theme :is(header[role="banner"], reddit-header-large, shreddit-header) :is(a[href^="/signup"], [data-testid="signup-button"]) {
-      background: var(--idea-accent) !important;
-      border: 1px solid var(--idea-accent) !important;
-      color: #FFFFFF !important;
+    html.idea-ide-theme #idea-topbar .idea-topbar-action.is-primary {
+      background: var(--idea-accent);
+      border-color: var(--idea-accent);
+      color: #FFFFFF;
     }
 
     /* Injected brand + menubar */
-    html.idea-ide-theme .idea-header-slot {
-      display: flex !important;
-      align-items: center !important;
-      gap: 4px !important;
-      flex: 0 0 auto !important;
-      margin-right: 2px !important;
-      min-width: 0 !important;
-    }
-
     html.idea-ide-theme .idea-brand {
       display: inline-flex;
       align-items: center;
@@ -507,10 +508,10 @@
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
-      width: 24px !important;
+      min-width: 24px !important;
       height: 24px !important;
       margin: 0 2px 0 6px !important;
-      padding: 0 !important;
+      padding: 0 6px !important;
       border: 1px solid transparent !important;
       border-radius: 2px !important;
       background: transparent !important;
@@ -677,16 +678,79 @@
       margin-right: var(--idea-tool-strip) !important;
     }
 
-    /* ===== Left rail: Project View ===== */
-    html.idea-ide-theme :is(reddit-sidebar-nav, left-nav, nav[aria-label="Primary navigation"], #left-sidebar-container) {
-      margin: 0 0 0 var(--idea-tool-strip) !important;
+    /* ===== Left rail replaced by own Project View panel ===== */
+    html.idea-ide-theme .idea-project-panel {
+      position: fixed;
+      top: 36px;
+      bottom: 22px;
+      left: var(--idea-tool-strip);
+      z-index: 2147483590;
+      width: 252px;
+      display: flex;
+      flex-direction: column;
+      background: var(--idea-pv-bg);
+      border-right: 1px solid var(--idea-pv-border);
+      color: var(--idea-pv-text);
+      font-family: var(--idea-mono);
+      font-size: 13px;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    html.idea-ide-theme .idea-project-panel ul {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 6px 6px 10px !important;
+      overflow-y: auto;
+    }
+
+    html.idea-ide-theme .idea-project-panel li {
+      margin: 0 !important;
       padding: 0 !important;
-      border-right: 1px solid var(--idea-pv-border) !important;
-      background: var(--idea-pv-bg) !important;
+    }
+
+    html.idea-ide-theme .idea-project-panel a {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      min-height: 22px !important;
+      margin: 0 !important;
+      padding: 2px 8px !important;
+      border: 0 !important;
+      border-radius: 3px !important;
+      background: transparent !important;
+      box-shadow: none !important;
       color: var(--idea-pv-text) !important;
-      font-family: var(--idea-mono) !important;
+      text-decoration: none !important;
       font-size: 13px !important;
-      line-height: 1.5 !important;
+      font-family: var(--idea-mono) !important;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    html.idea-ide-theme .idea-project-panel a::before {
+      content: "▸";
+      width: 16px;
+      min-width: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--idea-pv-folder);
+      font-size: 10px;
+      font-family: var(--idea-ui);
+    }
+
+    html.idea-ide-theme .idea-project-panel a:hover {
+      background: var(--idea-pv-hover) !important;
+    }
+
+    html.idea-ide-theme .idea-project-panel a.is-active {
+      background: var(--idea-pv-selected) !important;
+    }
+
+    html.idea-ide-theme.idea-rail-left main {
+      margin-left: calc(var(--idea-tool-strip) + 252px) !important;
     }
 
     html.idea-ide-theme .idea-project-title {
@@ -888,14 +952,13 @@
       font-family: var(--idea-ui) !important;
     }
 
-    html.idea-ide-home shreddit-feed > :is(article[data-post-id], div[data-testid="post-container"]),
-    html.idea-ide-home shreddit-posts-page > :is(article[data-post-id], div[data-testid="post-container"]) {
+    html.idea-ide-home .idea-git-row {
       position: relative !important;
       display: block !important;
       width: 100% !important;
       max-width: none !important;
       margin: 0 !important;
-      padding: 6px 12px 6px 8px !important;
+      padding: 6px 16px 6px 8px !important;
       border: 0 !important;
       border-bottom: 1px solid var(--idea-line-soft) !important;
       border-radius: 0 !important;
@@ -904,11 +967,11 @@
       overflow: hidden !important;
     }
 
-    html.idea-ide-home shreddit-feed > :is(article[data-post-id], div[data-testid="post-container"]):hover {
+    html.idea-ide-home .idea-git-row:hover {
       background: var(--idea-row-hover) !important;
     }
 
-    html.idea-ide-home shreddit-post {
+    html.idea-ide-home .idea-git-row shreddit-post {
       position: relative !important;
       display: block !important;
       width: 100% !important;
@@ -1072,21 +1135,27 @@
       background: var(--idea-fill-hover) !important;
     }
 
-    /* Feed media: modest, square */
-    html.idea-ide-home shreddit-post :is(picture, faceplate-img, shreddit-gallery, gallery-carousel, figure, img):not([width]):not([height]) {
-      max-height: 120px !important;
-      max-width: 260px !important;
+    /* Feed media: modest, square; avatars off */
+    html.idea-ide-home .idea-git-row :is(reddit-avatar, [data-testid="avatar"]) {
+      display: none !important;
+    }
+
+    html.idea-ide-home .idea-git-row img {
+      max-height: 100px !important;
+      max-width: 240px !important;
       width: auto !important;
       height: auto !important;
       margin: 4px 0 !important;
       border-radius: 2px !important;
       box-shadow: none !important;
+      display: inline-block !important;
     }
 
-    html.idea-ide-home shreddit-post video,
-    html.idea-ide-home shreddit-post shreddit-player {
-      max-height: 200px !important;
+    html.idea-ide-home .idea-git-row video,
+    html.idea-ide-home .idea-git-row shreddit-player {
+      max-height: 160px !important;
       border-radius: 2px !important;
+      margin: 4px 0 !important;
     }
 
     /* Awards off */
@@ -1447,14 +1516,24 @@
         display: none !important;
       }
 
-      html.idea-ide-theme main,
-      html.idea-ide-theme :is(reddit-sidebar-nav, left-nav, nav[aria-label="Primary navigation"], #left-sidebar-container),
-      html.idea-ide-theme :is(#right-sidebar-container, [data-testid="right-sidebar"]) {
+      html.idea-ide-theme .idea-project-panel,
+      html.idea-ide-theme.idea-rail-left main {
         margin-left: 0 !important;
-        margin-right: 0 !important;
+      }
+
+      html.idea-ide-theme .idea-project-panel {
+        display: none !important;
+      }
+
+      html.idea-ide-theme main {
+        margin-left: 0 !important;
       }
 
       html.idea-ide-theme .idea-menubar {
+        display: none !important;
+      }
+
+      html.idea-ide-theme .idea-topbar-search {
         display: none !important;
       }
     }
@@ -1536,13 +1615,95 @@
     ensureToolStrip("right", product.stripRight);
   }
 
-  function getHeaderTarget() {
-    return (
-      document.querySelector('header[role="banner"]') ||
-      document.querySelector("reddit-header-large") ||
-      document.querySelector("shreddit-header") ||
-      document.querySelector("header")
-    );
+  function makeTopBar() {
+    if (document.getElementById("idea-topbar")) return;
+    if (!document.body) return;
+
+    const product = getProduct();
+
+    const bar = document.createElement("header");
+    bar.id = "idea-topbar";
+    bar.setAttribute("role", "banner");
+
+    const brand = document.createElement("button");
+    brand.id = "idea-brand";
+    brand.type = "button";
+    brand.className = "idea-brand";
+    brand.title = "切换产品（IntelliJ IDEA / PyCharm）";
+    brand.innerHTML = product.mark(`${product.id}-br`, `width="18" height="18"`)
+      + `<span class="idea-brand-name">${product.name}</span><span class="idea-brand-caret">▾</span>`;
+    bindBrandMenu(brand);
+
+    const menubar = document.createElement("nav");
+    menubar.className = "idea-menubar";
+    menubar.setAttribute("aria-label", "IDE menu");
+    product.menus.forEach((label) => {
+      const item = document.createElement("button");
+      item.type = "button";
+      item.textContent = label;
+      menubar.appendChild(item);
+    });
+
+    const links = document.createElement("nav");
+    links.className = "idea-topbar-links";
+    links.setAttribute("aria-label", "Reddit navigation");
+    [["/", "Home"], ["/r/popular/", "Popular"], ["/r/all/", "All"]].forEach(([href, label]) => {
+      const a = document.createElement("a");
+      a.href = href;
+      a.textContent = label;
+      links.appendChild(a);
+    });
+
+    const search = document.createElement("form");
+    search.className = "idea-topbar-search";
+    search.action = "/search/";
+    search.method = "get";
+    const input = document.createElement("input");
+    input.type = "text";
+    input.name = "q";
+    input.placeholder = "Search Reddit…";
+    input.autocomplete = "off";
+    search.appendChild(input);
+
+    const spacer = document.createElement("span");
+    spacer.className = "idea-topbar-spacer";
+
+    const themeBtn = document.createElement("button");
+    themeBtn.id = "idea-theme-btn";
+    themeBtn.type = "button";
+    themeBtn.className = "idea-theme-btn";
+    themeBtn.textContent = isDarkMode() ? "dark" : "light";
+    themeBtn.title = "深色 / 浅色（Darcula vs. IDEA 浅色）";
+    themeBtn.addEventListener("click", () => {
+      setDarkMode(!isDarkMode());
+      applyColorMode();
+      themeBtn.textContent = isDarkMode() ? "dark" : "light";
+    });
+
+    bar.append(brand, menubar, links, search, spacer, themeBtn);
+
+    /* Keep auth reachable: clone native login/signup links, else generic account. */
+    const login = document.querySelector('header a[href^="/login"], [data-testid="login-button"], a[href="/login/"]');
+    const signup = document.querySelector('header a[href^="/signup"], [data-testid="signup-button"], a[href="/signup/"]');
+    if (login) {
+      const clone = login.cloneNode(true);
+      clone.classList.add("idea-topbar-action");
+      bar.appendChild(clone);
+    }
+    if (signup) {
+      const clone = signup.cloneNode(true);
+      clone.classList.add("idea-topbar-action", "is-primary");
+      bar.appendChild(clone);
+    }
+    if (!login && !signup) {
+      const account = document.createElement("a");
+      account.className = "idea-topbar-action";
+      account.href = "/settings";
+      account.textContent = "account";
+      bar.appendChild(account);
+    }
+
+    document.body.prepend(bar);
   }
 
   function closeBrandMenu() {
@@ -1591,73 +1752,46 @@
   }
 
   function makeHeaderChrome() {
-    const header = getHeaderTarget();
-    if (!header || document.getElementById("idea-header-slot")) return;
-    if (
-      !header.closest("shreddit-app") &&
-      !header.closest("fluid-app") &&
-      header.tagName === "HEADER" &&
-      !header.hasAttribute("role")
-    ) {
-      /* plain <header> outside the app shell: leave it alone */
-      return;
-    }
-
-    const product = getProduct();
-    const slot = document.createElement("div");
-    slot.id = "idea-header-slot";
-    slot.className = "idea-header-slot";
-
-    const brand = document.createElement("button");
-    brand.id = "idea-brand";
-    brand.type = "button";
-    brand.className = "idea-brand";
-    brand.title = "切换产品（IntelliJ IDEA / PyCharm）";
-    brand.innerHTML = product.mark(`${product.id}-br`, `width="18" height="18"`)
-      + `<span class="idea-brand-name">${product.name}</span><span class="idea-brand-caret">▾</span>`;
-    bindBrandMenu(brand);
-
-    const menubar = document.createElement("nav");
-    menubar.className = "idea-menubar";
-    menubar.setAttribute("aria-label", "IDE menu");
-    product.menus.forEach((label) => {
-      const item = document.createElement("button");
-      item.type = "button";
-      item.textContent = label;
-      menubar.appendChild(item);
-    });
-
-    const themeBtn = document.createElement("button");
-    themeBtn.id = "idea-theme-btn";
-    themeBtn.type = "button";
-    themeBtn.className = "idea-theme-btn";
-    themeBtn.textContent = isDarkMode() ? "dark" : "light";
-    themeBtn.title = "深色 / 浅色（Darcula vs. IDEA 浅色）";
-    themeBtn.addEventListener("click", () => {
-      setDarkMode(!isDarkMode());
-      applyColorMode();
-      themeBtn.textContent = isDarkMode() ? "dark" : "light";
-    });
-
-    slot.append(brand, menubar, themeBtn);
-    header.prepend(slot);
+    /* removed: header chrome is now a fully injected top bar */
   }
 
   const FOLDER_ICON_SVG = '<svg viewBox="0 0 16 16"><path d="M1.5 2h5l1.5 2h6.5v9.5H1.5z"/></svg>';
 
-  function addProjectTitle() {
-    const rail = document.querySelector(
-      "reddit-sidebar-nav, left-nav, nav[aria-label='Primary navigation'], #left-sidebar-container"
-    );
-    if (!rail || document.getElementById("idea-project-title")) return;
-    const title = document.createElement("div");
-    title.id = "idea-project-title";
-    title.className = "idea-project-title";
+  function ensureProjectPanel() {
+    if (document.getElementById("idea-project-panel")) return;
+    if (!document.body) return;
+
+    const panel = document.createElement("aside");
+    panel.id = "idea-project-panel";
+    panel.className = "idea-project-panel";
+
     const pathParts = location.pathname.split("/").filter(Boolean);
     const path = ["reddit", ...pathParts.slice(0, 2)].join(" / ");
+
+    const title = document.createElement("div");
+    title.className = "idea-project-title";
     title.innerHTML = `<span class="idea-project-title-icon">${FOLDER_ICON_SVG}</span>
-      <span class="idea-project-title-path">${path}</span>`;
-    rail.prepend(title);
+      <span class="idea-project-title-path">${escapeHtml(path)}</span>`;
+
+    const list = document.createElement("ul");
+    const sections = [["/", "Home"], ["/r/popular/", "Popular"], ["/r/all/", "All"]];
+    if (pathParts[0] === "r" && pathParts[1]) {
+      sections.push([location.pathname.replace(/\/+$/, "") || "/", `r/${pathParts[1]}`]);
+    }
+    sections.forEach(([href, label]) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = href;
+      a.textContent = label;
+      const current = href === "/" ? location.pathname === "/" : location.pathname.startsWith(href);
+      if (current) a.classList.add("is-active");
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+
+    panel.append(title, list);
+    document.body.appendChild(panel);
+    document.documentElement.classList.add("idea-rail-left");
   }
 
   const GIT_GRAPH_COLORS = ["#4A9FD8", "#499C54", "#C1862E", "#954F72", "#39A7AC", "#D05A4E"];
@@ -1677,13 +1811,17 @@
     const scope = document.querySelector("shreddit-feed") || document.querySelector("shreddit-posts-page");
     if (!scope) return;
 
+    const posts = Array.from(scope.querySelectorAll("shreddit-post"));
+    if (!posts.length) return;
+
     const rows = [];
-    for (const row of scope.children) {
-      if (row.matches("article[data-post-id], [data-testid='post-container'], shreddit-post")) {
-        const post = row.matches("shreddit-post") ? row : row.querySelector("shreddit-post");
-        if (post) rows.push({ row, post });
-      }
-    }
+    const seen = new Set();
+    posts.forEach((post) => {
+      const row = post.parentElement;
+      if (!row || seen.has(row)) return;
+      seen.add(row);
+      rows.push({ row, post });
+    });
     if (!rows.length) return;
 
     let laneCount = 0;
@@ -1695,30 +1833,34 @@
       if (!laneState.has(sub)) {
         laneState.set(sub, laneState.size);
       }
-      const lane = laneState.get(sub);
-      const subColored = laneState.size - 1;
-      laneCount = Math.max(laneCount, subColored + 1);
       row.dataset.ideaSub = sub;
-      row.dataset.ideaLane = String(lane);
+      row.dataset.ideaLane = String(laneState.get(sub));
+      laneCount = Math.max(laneCount, laneState.size);
     }
 
     let prevSub = null;
-    rows.forEach(({ row, post }) => {
-      if (row.dataset.ideaGitDone) {
-        const existing = row.querySelector(".idea-git-graph");
-        if (existing) existing.style.width = `${gitLaneX(laneCount) + 10}px`;
-        return;
-      }
-      row.dataset.ideaGitDone = "1";
+    rows.forEach(({ row }) => {
+      row.classList.add("idea-git-row");
       const sub = row.dataset.ideaSub;
       const lane = Number(row.dataset.ideaLane);
+      const laneIndex = laneState.get(sub);
       const width = gitLaneX(laneCount) + 10;
 
-      const graph = document.createElement("span");
-      graph.className = "idea-git-graph";
+      let graph = row.querySelector(".idea-git-graph");
+      if (!graph) {
+        graph = document.createElement("span");
+        graph.className = "idea-git-graph";
+        row.prepend(graph);
+      }
       graph.style.width = `${width}px`;
+      row.style.setProperty("--idea-lane-w", `${width + 8}px`);
 
-      const laneIndex = Array.from(laneState.keys()).indexOf(sub);
+      if (graph.dataset.ideaSub === sub) {
+        prevSub = sub;
+        return;
+      }
+      graph.dataset.ideaSub = sub;
+
       let svg = "";
       for (let l = 0; l < laneCount; l++) {
         const color = GIT_GRAPH_COLORS[l % GIT_GRAPH_COLORS.length];
@@ -1734,7 +1876,6 @@
 
       graph.innerHTML = `<svg viewBox="0 0 ${width} 40" preserveAspectRatio="none">${svg}</svg>` +
         `<span class="idea-git-dot" style="left:${gitLaneX(lane) - 4.5}px;background:${GIT_GRAPH_COLORS[laneIndex % GIT_GRAPH_COLORS.length]}"></span>`;
-      row.prepend(graph);
     });
   }
 
@@ -1793,9 +1934,9 @@
     applyColorMode();
     applyProductChrome();
     routeClass();
-    makeHeaderChrome();
+    makeTopBar();
     makeTopicChrome();
-    addProjectTitle();
+    ensureProjectPanel();
     syncGitLogRows();
     makeToolStrips();
   }
@@ -1833,6 +1974,7 @@
       requestAnimationFrame(bootstrap);
       return;
     }
+    document.documentElement.classList.add("idea-ide-theme");
     applyTheme();
 
     const observer = new MutationObserver(() => scheduleApply());
